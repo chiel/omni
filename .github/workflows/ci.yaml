@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  install:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          key: node-modules-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          path: node_modules
+      - uses: actions/setup-node@v3
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          node-version: 16
+      - uses: pnpm/action-setup@v2.4.0
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          run_install: true
+          version: 8
