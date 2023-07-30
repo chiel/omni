@@ -1,0 +1,11 @@
+{
+	"publishConfig": {
+		"access": "restricted"
+	},
+	"name": "@chiel/omni-ui",
+	"version": "0.0.0",
+	"repository": {
+		"directory": "packages/ui",
+		"url": "github:chiel/pnpm-monorepo"
+	}
+}

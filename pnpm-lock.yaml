@@ -12,6 +12,8 @@ importers:
         specifier: ^7.1.4
         version: 7.1.4
 
+  packages/ui: {}
+
 packages:
 
   /@babel/code-frame@7.22.5:
