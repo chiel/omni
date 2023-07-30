@@ -23,3 +23,35 @@ jobs:
         with:
           run_install: true
           version: 8
+
+  changed:
+    name: Version changed packages
+    runs-on: ubuntu-latest
+    needs:
+      - install
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/cache@v3
+        with:
+          key: node-modules-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          path: node_modules
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8
+      - name: Get changed packages
+        id: packages
+        run: echo "packages=$((pnpm exec lerna changed --loglevel silent || true) | paste -sd, -)" >> $GITHUB_OUTPUT
+      - name: Version changed packages
+        if: steps.packages.outputs.packages != null
+        run: pnpm exec lerna version --no-changelog --no-git-tag-version --no-push
+      - name: Upload version artifacts
+        if: steps.packages.outputs.packages != null
+        uses: actions/upload-artifact@v3
+        with:
+          name: version-artifacts
+          path: packages/*/package.json
