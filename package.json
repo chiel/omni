@@ -1,5 +1,8 @@
 {
 	"private": true,
 	"name": "omni",
-	"repository": "github:chiel/omni"
+	"repository": "github:chiel/omni",
+	"devDependencies": {
+		"lerna": "^7.1.4"
+	}
 }
